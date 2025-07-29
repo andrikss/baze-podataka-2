@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  oracle:
+    image: gvenzl/oracle-xe
+    ports:
+      - "1522:1521"
+    environment:
+      ORACLE_PASSWORD: bp2
+    volumes:
+      - ./init_scripts:/container-entrypoint-initdb.d
+    networks:
+      - bp2-net
+
+  app:
+    build: .
+    depends_on:
+      - oracle
+    networks:
+      - bp2-net
+
+networks:
+  bp2-net:
